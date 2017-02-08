@@ -21,6 +21,7 @@ def open_browser(url):
     webbrowser.open(url)
 
 
+
 def download_website_data_as_html(url, path):
     """
     Use the requests library to download website data as an html file.
@@ -103,3 +104,32 @@ def filter_html_by_selector(source, destination, selector):
                 data = str(elements[i]).encode()
                 dst.write(data)
             """
+
+
+def scrape_pages_from_links(source, selector, rootpath, endpath):
+    """
+    Scrape the links from the source file, open each one, and save those files in new individual html files
+    on your machine.
+    :param source: Source URL or path
+    :param selector: The CSS selector you would like to filter by. i.e. "a"
+    :param rootpath: The root of the destination path to your new files. i.e. "User\Documents\"
+    :param endpath: The name of the file, which a number will be appended to for separation. i.e. "MyWebPageLinkPage"
+    :return:
+    """
+    if os.path.exists(source) is True:
+        # open the source file in read bytes mode and destination file in write byte mode
+        with open(source, "rb") as src:
+            # parse the source file into a bs4 object
+            soup = BeautifulSoup(src, "lxml")
+            # get a list of bs4 objects by parsing soup
+            elements = soup.select(selector)
+
+            count = 0
+            # iterate through the list of bs4 objects, encode them, and cast them a string to be written to dst
+            for i in range(0, len(elements)):
+                url = str(elements[i].getText())
+                end = endpath + str(count) + ".html"
+                fullpath = rootpath + end
+                download_website_data_as_html(url, fullpath)
+                count += 1
+
