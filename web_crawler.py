@@ -22,7 +22,6 @@ def open_browser(url):
     webbrowser.open(url)
 
 
-
 def download_website_data_as_html(url, path):
     """
     Use the requests library to download website data as an html file.
@@ -137,7 +136,7 @@ def scrape_pages_from_links(source, selector, rootpath, endpath):
 
 def parse_for_json(source,
                    destination,
-                   job_ID,
+                   job_id,
                    job_title,
                    company,
                    location,
@@ -152,7 +151,7 @@ def parse_for_json(source,
     if there are no selectors available. Pass in "#none" for unknown selectors.
     :param source:
     :param destination:
-    :param job_ID:
+    :param job_id:
     :param job_title:
     :param company:
     :param location:
@@ -175,16 +174,16 @@ def parse_for_json(source,
             soup = BeautifulSoup(src, "lxml")
 
             # parse for job_ID
-            elements = soup.select(job_ID)
-            new_ID = ""
+            elements = soup.select(job_id)
+            new_id = ""
             try:
-                new_ID = str(elements[0].getText())
-                new_ID = new_ID.strip()
+                new_id = str(elements[0].getText())
+                new_id = new_id.strip()
             except IndexError as e:
                 print("Index out of range for job ID.")
             finally:
                 first = "Job ID"
-                new_dict.update({first: new_ID})
+                new_dict.update({first: new_id})
 
             # parse for job_title
             elements = soup.select(job_title)
@@ -294,7 +293,7 @@ def parse_for_json(source,
                 first = "Application Link"
                 new_dict.update({first: new_app_link})
 
-            # crate a json dump of the new dictionary, format it, print it to the console, and write it to destination
+            # create a json dump of the new dictionary, format it, print it to the console, and write it to destination
             new_object = json.dumps(new_dict, sort_keys=True, indent=4, separators=(',', ': '))
             print(new_object)
             dst.write(new_object + "\n")
