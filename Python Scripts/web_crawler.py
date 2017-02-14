@@ -297,9 +297,3 @@ def parse_for_json(source,
             new_object = json.dumps(new_dict, sort_keys=True, indent=4, separators=(',', ': '))
             print(new_object)
             dst.write(new_object + "\n")
-
-
-# download_website_data_as_html("http://6dglobal.com/careers", "C:\\Users\Gary\Documents\WebsiteData\\6dglobal.html")
-
-scrape_pages_from_links("C:\\Users\Gary\Documents\WebsiteData\\6dglobal.html", ".job-title a[href^='http']", "C:\\Users\Gary\Documents\WebsiteData\\", "6dglobalresults")
-
